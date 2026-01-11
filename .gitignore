@@ -2,3 +2,6 @@ pyrightconfig.json
 data
 keys
 venv
+dist
+build
+*.spec
