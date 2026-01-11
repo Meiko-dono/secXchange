@@ -23,7 +23,7 @@ parser.add_argument('--pub', help='Path to your recpient\'s public key')
 parser.add_argument('--infile', help='Path to your input data')
 args = parser.parse_args()
 
-def main():    
+def main():
     if (not PRVKEY_DIR.is_file()) or (not PUBKEY_DIR.is_file()):
         gen_keypair(PRVKEY_DIR, name=KEYNAME)
 
@@ -56,7 +56,7 @@ def main():
                         plaintext = data.read_bytes()
                     )
                 )
-                cont_hook('Encryption completed succesfully: The file is stored as ./encrypted-file')           
+                cont_hook('Encryption completed succesfully: The file is stored as ./encrypted-file')
             case 1:
                 if args.infile is None:
                     cont_hook('Decryption requires a valid encrypted input-file!')
@@ -84,7 +84,7 @@ def main():
                     lambda path: Path(path).is_file(),
                     'File not found -- try again.'
                 )
-            
+
 
 def clear_screen():
     print("\033c", end="")
@@ -113,8 +113,8 @@ def print_options_menu(options : list[str]):
         clear_screen()
 
         for row in enumerate(options, start=1):
-            print(f"{GREEN_START}{row[0] :> 3}{COL_STOP} {row[1] : <20}") 
-        
+            print(f"{GREEN_START}{row[0] :> 3}{COL_STOP} {row[1] : <20}")
+
         try:
             idx = int(input(f'Enter index[1-{len(options)}]:'))
             if idx > 0 and idx <= len(options):
@@ -129,7 +129,7 @@ def gen_keypair(path : Path, name : str):
     if path is not None and name is not None:
         path.with_name(name + '.key').write_bytes(private_key.private_bytes_raw())
         path.with_name(name + '.pub').write_bytes(public_key.public_bytes_raw())
-    return (private_key, public_key)      
+    return (private_key, public_key)
 
 def encrypt_for_recipient(recipient_pubkey_bytes: bytes, plaintext: bytes) -> bytes:
     recipient_pubkey = x25519.X25519PublicKey.from_public_bytes(recipient_pubkey_bytes)
